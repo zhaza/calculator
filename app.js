@@ -33,7 +33,7 @@ function input() {
     
     buttons.forEach((button) => {
         button.addEventListener("click", event => {
-            if (str.includes("+") || str.includes("-") || str.includes("/") || str.includes("*")) {
+            if (str.match(/\D/)) {
                 step += button.textContent;
                 show.textContent = step;
                 return str += step
@@ -63,7 +63,7 @@ function operate() {
                     return show.textContent = result;
                 }
             } else {
-                if (str.includes("+") || str.includes("-") || str.includes("/") || str.includes("*")) {
+                if (str.match(/\D/)) {
                     result = calcOperate(str.split(" "));
                     clear();
                     str += result + " " + button.textContent + " ";
