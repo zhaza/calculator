@@ -25,7 +25,7 @@ function calcOperate(arr) {
 // }
 
 let str = "";
-let arr = [];
+let step = "";
 //All number button.eListens for click to update display, then display.
 function input() {
     const buttons = document.querySelectorAll(".digit");
@@ -33,15 +33,17 @@ function input() {
     
     buttons.forEach((button) => {
         button.addEventListener("click", event => {
-            // if (show.textContent === "0") {
-            //     show.textContent = ""
-            // }
-            // console.log(str);
-            str += button.textContent;
-            return show.textContent = str;
+            if (str.includes("+") || str.includes("-") || str.includes("/") || str.includes("*")) {
+                step += button.textContent;
+                show.textContent = step;
+                return str += step
+            } else {
+                str += button.textContent;
+                return show.textContent = str;
+            }
         })
     })
-};
+}
 input();
 
 // All Ops button.eListeners, pushes number when clicked wipes display for next number
@@ -54,27 +56,20 @@ function operate() {
             let result = "";
             if (button.textContent === "clear") return clear();
             if (button.textContent === "=") {
-                if (arr.length > 1) {
-                    arr.push(str);
-                    result = calcOperate(arr);
+                if (str.split(" ").length === 3) {
+                    result = calcOperate(str.split(" "));
                     clear();
-                    arr.push(result);
+                    str += result;
                     return show.textContent = result;
                 }
             } else {
-                if (arr.length === 0) {
-                    arr.push(show.textContent);
-                    arr.push(button.textContent);
-                    return str = "";
-                } else if (arr.length === 1) {
-                    return arr.push(button.textContent);
-                } else {
-                    arr.push(str);
-                    result = calcOperate(arr);
+                if (str.includes("+") || str.includes("-") || str.includes("/") || str.includes("*")) {
+                    result = calcOperate(str.split(" "));
                     clear();
-                    arr.push(result);
-                    arr.push(button.textContent);
+                    str += result + " " + button.textContent + " ";
                     return show.textContent = result;
+                } else {
+                    return str += " " + button.textContent + " ";
                 }
             }
         })
@@ -87,7 +82,7 @@ function clear() {
     const show = document.querySelector(".display");
     show.textContent = "0";
     str = "";
-    arr = [];
+    step = "";
 };
 
 // //history function, to collect previous calculations
