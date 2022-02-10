@@ -11,17 +11,11 @@ function calcMultiply(a, b) {
 function calcDivide(a, b) {
     return a / b;
 }
-// function calcOperate(arr) {
-//     if (arr.includes("+")) return calcAdd(+arr[0], +arr[2]).toFixed(2);
-//     if (arr.includes("-")) return calcSubtract(+arr[0], +arr[2]).toFixed(2);
-//     if (arr.includes("*")) return calcMultiply(+arr[0], +arr[2]).toFixed(2);
-//     if (arr.includes("/")) return calcDivide(+arr[0], +arr[2]).toFixed(2);
-// }
 function calcOperate(x, y, z) {
-    if (y === ("+")) return calcAdd(+x, +z);
-    if (y === ("-")) return calcSubtract(+x, +z);
-    if (y === ("*")) return calcMultiply(+x, +z);
-    if (y === ("/")) return calcDivide(+x, +z);
+    if (y === ("+")) return Number.parseFloat(calcAdd(+x, +z)).toFixed(2);
+    if (y === ("-")) return Number.parseFloat(calcSubtract(+x, +z)).toFixed(2);
+    if (y === ("*")) return Number.parseFloat(calcMultiply(+x, +z)).toFixed(2);
+    if (y === ("/")) return Number.parseFloat(calcDivide(+x, +z)).toFixed(2);
 }
 
 let x = "";
@@ -34,13 +28,12 @@ function input() {
     
     buttons.forEach((button) => {
         button.addEventListener("click", event => {
-            if (str.match(/\D/)) {
-                step += button.textContent;
-                show.textContent = step;
-                return str += step
-            } else {
-                str += button.textContent;
-                return show.textContent = str;
+            if (y === "") { //take in first num
+                x += button.textContent;
+                return show.textContent = x;
+            } else { //take in last num
+                z += button.textContent;
+                return show.textContent = z;
             }
         })
     })
@@ -56,31 +49,18 @@ function operate() {
             const show = document.querySelector(".display");
             let result = "";
             if (button.textContent === "clear") return clear();
-            if (str.split(" ").length === 3) {
-                alert("huh?");
-                result = calcOperate(str.split(" "));
+            if (y === "") { //take in operator, unless "="
+                if (button.textContent === "=") return y = "";
+                return y = button.textContent;
+            } else if (z === "0" && y === "y") { 
+                return show.textContent = "You need coffee?";
+            } else { //calculate + set operator for next calc, unless "="
+                if (z === "") z = show.textContent;
+                result = calcOperate(x, y, z);
                 clear();
-                if (button.textContent === "=") {
-                    str += result + " ";
-                } else {
-                    str += result + " " + button.textContent + " ";
-                }
+                x = result;
+                if (button.textContent !== "=") y = button.textContent;
                 return show.textContent = result;
-            } else {
-                alert(str.split(" "));
-                if (str.split(" ").length() === 2) {
-                    result = str.split(" ").shift();
-                    alert(result);
-                    clear();
-                    str += result + " ";
-                    show.textContent = result;
-                    return alert("Invalid Format, try again with an operator.");
-                } else {
-                    if (button.textContent === "=") {
-                        
-                    }
-                    return str += " " + button.textContent + " ";
-                }
             }
         })
     })
@@ -91,8 +71,9 @@ operate();
 function clear() {
     const show = document.querySelector(".display");
     show.textContent = "0";
-    str = "";
-    step = "";
+    x = "";
+    y = "";
+    z = "";
 };
 
 // //history function, to collect previous calculations
