@@ -12,10 +12,10 @@ function calcDivide(a, b) {
     return a / b;
 }
 function calcOperate(arr) {
-    if (arr.includes("+")) return calcAdd(+arr[0], +arr[2]);
-    if (arr.includes("-")) return calcSubtract(+arr[0], +arr[2]);
-    if (arr.includes("*")) return calcMultiply(+arr[0], +arr[2]);
-    if (arr.includes("/")) return calcDivide(+arr[0], +arr[2]);
+    if (arr.includes("+")) return calcAdd(+arr[0], +arr[2]).toFixed(2);
+    if (arr.includes("-")) return calcSubtract(+arr[0], +arr[2]).toFixed(2);
+    if (arr.includes("*")) return calcMultiply(+arr[0], +arr[2]).toFixed(2);
+    if (arr.includes("/")) return calcDivide(+arr[0], +arr[2]).toFixed(2);
 }
 // function calcOperate(x, y, z) {
 //     if (y === ("+")) return calcAdd(+x, +z);
@@ -59,7 +59,7 @@ function operate() {
                 if (str.split(" ").length === 3) {
                     result = calcOperate(str.split(" "));
                     clear();
-                    str += result;
+                    str += result + " ";
                     return show.textContent = result;
                 }
             } else {
@@ -68,6 +68,10 @@ function operate() {
                     clear();
                     str += result + " " + button.textContent + " ";
                     return show.textContent = result;
+                } else if (str.split(" ").length === 2 && !str.match(/\D/)) {
+                    clear();
+                    show.textContent = result;
+                    return alert("Invalid Format, try again with an operator.");
                 } else {
                     return str += " " + button.textContent + " ";
                 }
