@@ -55,20 +55,17 @@ function operate() {
             const show = document.querySelector(".display");
             let result = "";
             if (button.textContent === "clear") return clear();
-            if (button.textContent === "=") {
-                if (str.split(" ").length === 3) {
-                    result = calcOperate(str.split(" "));
-                    clear();
+            if (str.split(" ").length === 3) {
+                result = calcOperate(str.split(" "));
+                clear();
+                if (button.textContent === "=") {
                     str += result + " ";
-                    return show.textContent = result;
-                }
-            } else {
-                if (str.match(/\D/)) {
-                    result = calcOperate(str.split(" "));
-                    clear();
+                } else {
                     str += result + " " + button.textContent + " ";
-                    return show.textContent = result;
-                } else if (str.split(" ").length === 2 && !str.match(/\D/)) {
+                }
+                return show.textContent = result;
+            } else {
+                if (str.split(" ").length === 2 && !str.match(/\D/)) {
                     clear();
                     show.textContent = result;
                     return alert("Invalid Format, try again with an operator.");
