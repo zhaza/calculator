@@ -53,7 +53,6 @@ function operate() {
                 if (button.textContent === "=") return y = "";
                 return y = button.textContent;
             } else if (z === "0" && y === "/") {
-                alert("yup");
                 return show.textContent = "You need coffee?";
             } else { //calculate + set operator for next calc, unless "="
                 if (z === "") z = show.textContent;
