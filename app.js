@@ -11,21 +11,22 @@ function calcMultiply(a, b) {
 function calcDivide(a, b) {
     return a / b;
 }
-function calcOperate(arr) {
-    if (arr.includes("+")) return calcAdd(+arr[0], +arr[2]).toFixed(2);
-    if (arr.includes("-")) return calcSubtract(+arr[0], +arr[2]).toFixed(2);
-    if (arr.includes("*")) return calcMultiply(+arr[0], +arr[2]).toFixed(2);
-    if (arr.includes("/")) return calcDivide(+arr[0], +arr[2]).toFixed(2);
-}
-// function calcOperate(x, y, z) {
-//     if (y === ("+")) return calcAdd(+x, +z);
-//     if (y === ("-")) return calcSubtract(+x, +z);
-//     if (y === ("*")) return calcMultiply(+x, +z);
-//     if (y === ("/")) return calcDivide(+x, +z);
+// function calcOperate(arr) {
+//     if (arr.includes("+")) return calcAdd(+arr[0], +arr[2]).toFixed(2);
+//     if (arr.includes("-")) return calcSubtract(+arr[0], +arr[2]).toFixed(2);
+//     if (arr.includes("*")) return calcMultiply(+arr[0], +arr[2]).toFixed(2);
+//     if (arr.includes("/")) return calcDivide(+arr[0], +arr[2]).toFixed(2);
 // }
+function calcOperate(x, y, z) {
+    if (y === ("+")) return calcAdd(+x, +z);
+    if (y === ("-")) return calcSubtract(+x, +z);
+    if (y === ("*")) return calcMultiply(+x, +z);
+    if (y === ("/")) return calcDivide(+x, +z);
+}
 
-let str = "";
-let step = "";
+let x = "";
+let y = "";
+let z = "";
 //All number button.eListens for click to update display, then display.
 function input() {
     const buttons = document.querySelectorAll(".digit");
@@ -56,6 +57,7 @@ function operate() {
             let result = "";
             if (button.textContent === "clear") return clear();
             if (str.split(" ").length === 3) {
+                alert("huh?");
                 result = calcOperate(str.split(" "));
                 clear();
                 if (button.textContent === "=") {
@@ -65,11 +67,18 @@ function operate() {
                 }
                 return show.textContent = result;
             } else {
-                if (str.split(" ").length === 2 && !str.match(/\D/)) {
+                alert(str.split(" "));
+                if (str.split(" ").length() === 2) {
+                    result = str.split(" ").shift();
+                    alert(result);
                     clear();
+                    str += result + " ";
                     show.textContent = result;
                     return alert("Invalid Format, try again with an operator.");
                 } else {
+                    if (button.textContent === "=") {
+                        
+                    }
                     return str += " " + button.textContent + " ";
                 }
             }
