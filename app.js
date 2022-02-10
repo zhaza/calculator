@@ -24,10 +24,10 @@ let z = "";
 //All number button.eListens for click to update display, then display.
 function input() {
     const buttons = document.querySelectorAll(".digit");
-    const show = document.querySelector(".display");
     
     buttons.forEach((button) => {
         button.addEventListener("click", event => {
+            const show = document.querySelector(".display");
             if (y === "") { //take in first num
                 x += button.textContent;
                 return show.textContent = x;
@@ -52,7 +52,8 @@ function operate() {
             if (y === "") { //take in operator, unless "="
                 if (button.textContent === "=") return y = "";
                 return y = button.textContent;
-            } else if (z === "0" && y === "y") { 
+            } else if (z === "0" && y === "/") {
+                alert("yup");
                 return show.textContent = "You need coffee?";
             } else { //calculate + set operator for next calc, unless "="
                 if (z === "") z = show.textContent;
