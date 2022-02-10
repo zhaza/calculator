@@ -12,10 +12,10 @@ function calcDivide(a, b) {
     return a / b;
 }
 function calcOperate(x, y, z) {
-    if (y === ("+")) return Number.parseFloat(calcAdd(+x, +z)).toFixed(2);
-    if (y === ("-")) return Number.parseFloat(calcSubtract(+x, +z)).toFixed(2);
-    if (y === ("*")) return Number.parseFloat(calcMultiply(+x, +z)).toFixed(2);
-    if (y === ("/")) return Number.parseFloat(calcDivide(+x, +z)).toFixed(2);
+    if (y === ("+")) return calcAdd(+x, +z);
+    if (y === ("-")) return calcSubtract(+x, +z);
+    if (y === ("*")) return calcMultiply(+x, +z);
+    if (y === ("/")) return calcDivide(+x, +z);
 }
 
 let x = "";
@@ -57,6 +57,7 @@ function operate() {
             } else { //calculate + set operator for next calc, unless "="
                 if (z === "") z = show.textContent;
                 result = calcOperate(x, y, z);
+                if (result % 1 != 0) result = Number.parseFloat(result).toFixed(2); //round result
                 clear();
                 x = result;
                 if (button.textContent !== "=") y = button.textContent;
