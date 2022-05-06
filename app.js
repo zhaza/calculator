@@ -11,35 +11,29 @@ function calcMultiply(a, b) {
 function calcDivide(a, b) {
     return a / b;
 }
-function calcOperate(arr) {
-    if (arr.includes("+")) return calcAdd(+arr[0], +arr[2]);
-    if (arr.includes("-")) return calcSubtract(+arr[0], +arr[2]);
-    if (arr.includes("*")) return calcMultiply(+arr[0], +arr[2]);
-    if (arr.includes("/")) return calcDivide(+arr[0], +arr[2]);
+function calcOperate(x, y, z) {
+    if (y === ("+")) return calcAdd(+x, +z);
+    if (y === ("-")) return calcSubtract(+x, +z);
+    if (y === ("*")) return calcMultiply(+x, +z);
+    if (y === ("/")) return calcDivide(+x, +z);
 }
-// function calcOperate(x, y, z) {
-//     if (y === ("+")) return calcAdd(+x, +z);
-//     if (y === ("-")) return calcSubtract(+x, +z);
-//     if (y === ("*")) return calcMultiply(+x, +z);
-//     if (y === ("/")) return calcDivide(+x, +z);
-// }
 
-let str = "";
-let step = "";
+let x = "";
+let y = "";
+let z = "";
 //All number button.eListens for click to update display, then display.
 function input() {
     const buttons = document.querySelectorAll(".digit");
-    const show = document.querySelector(".display");
     
     buttons.forEach((button) => {
         button.addEventListener("click", event => {
-            if (str.match(/\D/)) {
-                step += button.textContent;
-                show.textContent = step;
-                return str += step
-            } else {
-                str += button.textContent;
-                return show.textContent = str;
+            const show = document.querySelector(".display");
+            if (y === "") { //take in first num
+                x += button.textContent;
+                return show.textContent = x;
+            } else { //take in last num
+                z += button.textContent;
+                return show.textContent = z;
             }
         })
     })
@@ -55,22 +49,19 @@ function operate() {
             const show = document.querySelector(".display");
             let result = "";
             if (button.textContent === "clear") return clear();
-            if (button.textContent === "=") {
-                if (str.split(" ").length === 3) {
-                    result = calcOperate(str.split(" "));
-                    clear();
-                    str += result;
-                    return show.textContent = result;
-                }
-            } else {
-                if (str.match(/\D/)) {
-                    result = calcOperate(str.split(" "));
-                    clear();
-                    str += result + " " + button.textContent + " ";
-                    return show.textContent = result;
-                } else {
-                    return str += " " + button.textContent + " ";
-                }
+            if (y === "") { //take in operator, unless "="
+                if (button.textContent === "=") return y = "";
+                return y = button.textContent;
+            } else if (z === "0" && y === "/") {
+                return show.textContent = "You need coffee?";
+            } else { //calculate + set operator for next calc, unless "="
+                if (z === "") z = show.textContent;
+                result = calcOperate(x, y, z);
+                if (result % 1 != 0) result = Number.parseFloat(result).toFixed(2); //round result
+                clear();
+                x = result;
+                if (button.textContent !== "=") y = button.textContent;
+                return show.textContent = result;
             }
         })
     })
@@ -81,8 +72,9 @@ operate();
 function clear() {
     const show = document.querySelector(".display");
     show.textContent = "0";
-    str = "";
-    step = "";
+    x = "";
+    y = "";
+    z = "";
 };
 
 // //history function, to collect previous calculations
